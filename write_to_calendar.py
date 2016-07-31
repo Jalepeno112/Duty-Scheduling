@@ -25,15 +25,16 @@ def run(schedule_file):
 
 def writeToCalendar(df, flags):
     SCOPES = 'https://www.googleapis.com/auth/calendar'
-    CLIENT_SECRET_FILE = os.path.join(['config','client_secret.json'])
+    CLIENT_SECRET_FILE = os.path.join('config','client_secret.json')
     APPLICATION_NAME = "Duty Schedule"
 
     # connect to google services
-    store = oauth2client.file.Storage(os.path.join(['config','storage.json'])
+    store = oauth2client.file.Storage(os.path.join('config','storage.json'))
+    print("Getting ouath file: {0}".format(store))
     creds = store.get()
 
     if not creds or creds.invalid:
-        flow = oauth2client.client.flow_from_clientsecrets('client_secret.json', SCOPES)
+        flow = oauth2client.client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         creds = oauth2client.tools.run_flow(flow, store, flags)
     CAL = build('calendar', 'v3', http=creds.authorize(Http()))
 
